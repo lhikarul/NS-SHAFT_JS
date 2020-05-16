@@ -1,15 +1,20 @@
 const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: './src/game.js',
     mode: 'development',
     devServer: {
-        contentBase: './bundle'
+        contentBase: './bundle',
+        open: true
     },
     output: {
-        fileName: "bundle.js",
+        filename: "bundle.js",
         path: path.resolve(__dirname,'bundle')
     },
+    plugins:[new HtmlWebpackPlugin({
+        template: 'src/index.html'
+    })],
     resolve: {
         alias: {
             image: path.resolve(__dirname,'src/image')
