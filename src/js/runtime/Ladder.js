@@ -1,5 +1,5 @@
 import { Vector } from "../base/Vector";
-import { DataStore } from "../base/DateStore";
+import { DataStore } from "../base/DataStore";
 
 export class Ladder {
     constructor(args) {

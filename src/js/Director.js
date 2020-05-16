@@ -1,4 +1,4 @@
-import { DataStore } from "./base/DateStore";
+import { DataStore } from "./base/DataStore";
 import { Ladder } from "./runtime/Ladder";
 import { Vector } from "./base/Vector";
 

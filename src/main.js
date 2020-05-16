@@ -1,4 +1,4 @@
-import {DataStore} from './js/base/DateStore';
+import {DataStore} from './js/base/DataStore';
 import { Ladder } from './js/runtime/Ladder';
 import { Director } from './js/Director';
 export class Main {
