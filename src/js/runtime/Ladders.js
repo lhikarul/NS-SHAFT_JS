@@ -34,8 +34,23 @@ export class Ladders {
         this.update();
         this.ctx.save();
             this.ctx.translate(this.p.x - this.width/2, this.p.y - this.extraHeight);
-            this.ctx.fillStyle = "#888";
-            this.ctx.fillRect(0,0,this.width,this.height / 2);
+            this.ctx.fillStyle = "white";
+            this.ctx.font="20px Ariel"
+            this.ctx.fillText(this.type,0,30);
+            if (["normal","hurt"].includes(this.type)) {
+                this.ctx.fillStyle = "#888";
+                this.ctx.fillRect(0,0,this.width,this.height / 2);
+            }
+
+            if (this.type === "hurt") {
+                this.ctx.beginPath();
+                    let span = this.width / 16;
+                    for (let i=0; i<=this.width/span; i++) {
+                        this.ctx.lineTo(i * span, -(i%2) * 15);
+                    }
+                this.ctx.fillStyle = "#ddd";
+                this.ctx.fill();
+            }
 
         this.ctx.restore();
     }
