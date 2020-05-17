@@ -1,6 +1,7 @@
 import { DataStore } from "./base/DataStore";
 import { Ladders } from "./runtime/Ladders";
 import { Vector } from "./base/Vector";
+import { Player } from "./Player/Player";
 
 export class Director {
     static getInstance() {
@@ -45,6 +46,19 @@ export class Director {
         this.dataStore.set('ladders',ladders);
     }
 
+    checkTouching (ladder) {
+        let touching = false;
+        const player = Player.getInstance();
+
+        if (ladder.p.x - ladder.width/2 < player.p.x + player.width / 2 
+                && ladder.p.x + ladder.width/2 > player.p.x - player.width / 2
+                    && player.p.y > ladder.p.y
+                        && player.p.y < ladder.p.y + ladder.height + 10) {
+            touching = true;
+            ladder.step(player);
+        }
+    }
+
     run () {
         this.time += 1;
         this.dataStore.set('time',this.time);
@@ -52,7 +66,11 @@ export class Director {
             this.createLadders(false);
         }
         this.dataStore.get('background').draw();
-        this.dataStore.get('ladders').forEach(ladder => ladder.draw());
+
+        this.dataStore.get('ladders').forEach(ladder => {
+            this.checkTouching(ladder);
+            ladder.draw();
+        });
         this.dataStore.get('player').getInstance(this.width).draw();
 
         const timer = requestAnimationFrame(() => this.run());

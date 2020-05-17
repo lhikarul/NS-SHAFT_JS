@@ -85,4 +85,8 @@ export class Ladders {
 
         this.ctx.restore();
     }
+    step(player) {
+        player.v.y = 0;
+        player.p.y = this.p.y;
+    }
 }
