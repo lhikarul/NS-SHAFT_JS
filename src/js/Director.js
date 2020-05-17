@@ -45,8 +45,11 @@ export class Director {
         })
     }
     run () {
-        requestAnimationFrame(this.draw.bind(this));
-        setInterval(this.update.bind(this), 1000 / 30)
+        if (this.playing) {
+            this.start();
+            requestAnimationFrame(this.draw.bind(this));
+            setInterval(this.update.bind(this), 1000 / 30)
+        }
     }
     update () {
         let touching = false;
@@ -82,6 +85,18 @@ export class Director {
                 this.player.p.y = 10;
                 TweenMax.to(this,.5,{hurt:0});
             }
+        }
+
+        if (this.player.p.x - this.player.width / 2 < 0) {
+            this.player.p.x = 0 + this.player.width / 2;
+        }
+
+        if (this.player.p.x + this.player.width / 2 > this.width) {
+            this.player.p.x = this.width - this.player.width / 2;
+        }
+
+        if (this.player.p.y > this.dataStore.get('ww') + this.player.height) {
+            this.end();
         }
 
         this.time += 1;
@@ -122,5 +137,15 @@ export class Director {
 
         this.player.drawBlood();
         requestAnimationFrame(this.draw.bind(this));
+    }
+    start () {
+        this.playing = true;
+        this.time = 0;
+        this.dataStore.put('time',this.time);
+        document.getElementById("game_start_btn").style.display = "none";
+    }
+    end () {
+        this.playing = false;
+        document.getElementById("game_start_btn").style.display = "block";
     }
 }

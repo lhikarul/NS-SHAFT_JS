@@ -1,5 +1,6 @@
 import {Vector} from '../base/Vector';
 import {DataStore} from '../base/DataStore';
+import { Director } from '../Director';
 
 export class Player {
     constructor(args) {
@@ -40,7 +41,7 @@ export class Player {
         }
         if (this.blood < 0) {
             this.blood = 0;
-            // game over
+            Director.getInstance().end();
         }
     }
 }

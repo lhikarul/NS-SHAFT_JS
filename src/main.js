@@ -21,6 +21,7 @@ export class Main {
         this.registerEvent();
         this.director.createPlayer();
         this.director.createLadders();
+        this.director.playing = true;
         this.director.run();
     }
     registerEvent () {
@@ -32,6 +33,10 @@ export class Main {
         window.addEventListener("keyup", (evt) => {
             let key = evt.key.replace("Arrow","").toLowerCase();
             this.director.keyStatus[key] = false;
+        })
+
+        document.getElementById("game_start_btn").addEventListener('click',() => {
+            this.init();
         })
     }
 }
