@@ -64,9 +64,14 @@ export class Director {
                 if (this.player.p.y > ladder.p.y && this.player.p.y < ladder.p.y + ladder.height + 10) {
                     touching = true;
                     ladder.step(this.player)
+                    this.player.lastBlock = ladder;
                 }
             }
         });
+
+        if (!touching) {
+            this.player.lastBlock = null;
+        }
 
         this.time += 1;
         this.dataStore.put('time',this.time);
