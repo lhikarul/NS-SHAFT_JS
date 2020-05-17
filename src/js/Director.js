@@ -1,6 +1,7 @@
 import { DataStore } from "./base/DataStore";
 import { Ladder } from "./runtime/Ladder";
 import { Vector } from "./base/Vector";
+import {Player} from './player/Player';
 
 export class Director {
     static getInstance() {
@@ -36,6 +37,11 @@ export class Director {
             }))
         }
     }
+    createPlayer () {
+        this.player = new Player({
+            p: new Vector(this.width/2,200)
+        })
+    }
     run () {
         console.log(this)
         requestAnimationFrame(this.draw.bind(this));
@@ -44,11 +50,14 @@ export class Director {
         // this.dataStore.put('timer',timer);
     }
     update () {
+        this.player.update();
         this.ladders.forEach(ladder => ladder.update());
     }
     draw () {
         this.dataStore.ctx.fillStyle = "black";
         this.dataStore.ctx.fillRect(0,0,window.innerWidth,window.innerHeight)
+
+        this.player.draw();
         this.ladders.forEach(ladder => ladder.draw());
 
         requestAnimationFrame(this.draw.bind(this));
