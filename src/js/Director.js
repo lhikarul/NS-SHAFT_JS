@@ -84,9 +84,24 @@ export class Director {
         this.dataStore.ctx.fillStyle = "black";
         this.dataStore.ctx.fillRect(0,0,window.innerWidth,window.innerHeight)
 
-        this.player.draw();
-        this.ladders.forEach(ladder => ladder.draw());
+        const wh = this.dataStore.get('wh');
+        const ww = this.dataStore.get('ww');
+        this.dataStore.ctx.save();
+            this.dataStore.ctx.translate(ww/2 - this.width/2,0)
+            this.player.draw();
+            this.ladders.forEach(ladder => ladder.draw());
+            
+            this.dataStore.ctx.beginPath();
+                this.dataStore.ctx.moveTo(0,0);
+                this.dataStore.ctx.lineTo(0,wh)
+                this.dataStore.ctx.moveTo(this.width,0)
+                this.dataStore.ctx.lineTo(this.width,wh)
+                this.dataStore.ctx.strokeStyle = "rgba(255,255,255,.3)"
+                this.dataStore.ctx.stroke()
 
+        this.dataStore.ctx.restore();
+
+        this.player.drawBlood();
         requestAnimationFrame(this.draw.bind(this));
     }
 }

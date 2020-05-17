@@ -16,6 +16,7 @@ export class Main {
     init () {
         this.dataStore
                     .put('wh',window.innerHeight)
+                    .put('ww', window.innerWidth)
 
         this.registerEvent();
         this.director.createPlayer();
