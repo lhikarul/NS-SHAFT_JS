@@ -17,8 +17,21 @@ export class Main {
     init () {
         this.dataStore
                     .put('wh',window.innerHeight)
+
+        this.registerEvent();
         this.director.createPlayer();
         this.director.createLadders();
         this.director.run();
+    }
+    registerEvent () {
+        window.addEventListener("keydown", (evt) => {
+            let key = evt.key.replace("Arrow","").toLowerCase();
+            this.director.keyStatus[key] = true;
+        })
+
+        window.addEventListener("keyup", (evt) => {
+            let key = evt.key.replace("Arrow","").toLowerCase();
+            this.director.keyStatus[key] = false;
+        })
     }
 }

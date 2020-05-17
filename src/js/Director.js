@@ -49,6 +49,14 @@ export class Director {
     update () {
         let touching = false;
         this.player.update();
+
+        if (this.keyStatus.left) {
+            this.player.p.x -= 8;
+        }
+        if (this.keyStatus.right) {
+            this.player.p.x += 8
+        }
+
         this.ladders.forEach(ladder => {
             ladder.update();
             if (ladder.p.x - ladder.width / 2 < this.player.p.x + this.player.width / 2 && ladder.p.x + ladder.width / 2 > this.player.p.x - this.player.width / 2) {
