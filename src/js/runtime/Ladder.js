@@ -57,6 +57,26 @@ export class Ladder {
                 ctx.fillRect(0,0,this.width,this.height / 2);
             }
 
+            if (this.type === "slideLeft" || this.type === "slideRight") {
+                let time = DataStore.getInstance().map.get('time');
+                for (let i=0; i < this.width/20; i+=1) {
+                    let x = i * 20 + (time % 20) * (this.type === "slideLeft" ? -1 : 1);
+                    if (x < 0) {
+                        x = 0;
+                    }
+                    let width = 10;
+                    if (x + width > this.width) {
+                        width = this.width - x < 0 ? 0 : (this.width - x);
+                    }
+                    ctx.fillStyle = "red";
+                    ctx.save();
+                        ctx.transform(1,0,0.5,1,0,0);
+                        ctx.fillRect(x,0,width,this.height);
+                    ctx.restore();
+
+                }
+            }
+
        ctx.restore();
     }
     step (player) {

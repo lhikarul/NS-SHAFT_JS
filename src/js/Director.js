@@ -69,6 +69,7 @@ export class Director {
         });
 
         this.time += 1;
+        this.dataStore.put('time',this.time);
        
         if (this.time % 20 === 0) {
             this.ladders.push(new Ladder({
