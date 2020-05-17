@@ -87,6 +87,26 @@ export class Ladders {
     }
     step(player) {
         player.v.y = 0;
-        player.p.y = this.p.y;
+        if (this.type !== 'fade') {
+            player.p.y = this.p.y;
+        }
+        
+        if (this.type === "jump") {
+            console.log(player.v.y)
+            player.v.y -= 13;
+        }
+
+        if (this.type === "slideLeft"){
+            player.p.x -= 1;
+        }
+
+        if (this.type === "slideRight") {
+            player.p.x += 1;
+        }
+
+        if (this.type === "fade") {
+            player.p.y -= 1.5;
+            console.log(player.p.y)
+        }
     }
 }
