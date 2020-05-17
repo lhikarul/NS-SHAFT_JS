@@ -84,7 +84,6 @@ export class Director {
         }
 
         this.playerMoving();
-        this.dataStore.get('background').draw();
         this.draw();
 
         const timer = requestAnimationFrame(() => this.run());
@@ -94,6 +93,8 @@ export class Director {
     draw () {
         const wh = this.dataStore.get('wh');
         const ww = this.dataStore.get('ww');
+        this.dataStore.get('background').draw();
+        this.player.drawBlood();
         this.ctx.save();
             this.ctx.translate(ww/2 - this.width/2,0);
 

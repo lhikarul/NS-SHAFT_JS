@@ -92,7 +92,6 @@ export class Ladders {
         }
         
         if (this.type === "jump") {
-            console.log(player.v.y)
             player.v.y -= 13;
         }
 
@@ -106,7 +105,6 @@ export class Ladders {
 
         if (this.type === "fade") {
             player.p.y -= 1.5;
-            console.log(player.p.y)
         }
     }
 }

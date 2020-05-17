@@ -1,7 +1,8 @@
 import { Vector } from "../base/Vector"
 import { DataStore } from "../base/DataStore";
+import { Blood } from "./Blood";
 
-export class Player {
+export class Player extends Blood {
     static getInstance(width=700) {
         if (!Player.instance) {
             Player.instance = new Player({
@@ -11,15 +12,13 @@ export class Player {
         return Player.instance;
     }
     constructor(args) {
+        super(10,10)
         const def = {
             p: new Vector(0,0),
             v: new Vector(0,0),
             a: new Vector(0,0.8),
             width: 40,
             height: 55,
-            blood: 10,
-            maxBlood: 10,
-            lastBlock: null
         }
         Object.assign(def,args);
         Object.assign(this,def);
@@ -35,5 +34,8 @@ export class Player {
         this.update();
         this.ctx.fillStyle = "#eee";
         this.ctx.fillRect(this.p.x - this.width/2, this.p.y - this.height,this.width,this.height);
+    }
+    drawBlood () {
+        super.draw();
     }
 }
