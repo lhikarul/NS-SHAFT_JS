@@ -1,6 +1,7 @@
 import { Vector } from "../base/Vector";
 import { DataStore } from "../base/DataStore";
 import {TweenMax} from "gsap";
+import { Director } from "../Director";
 
 export class Ladder {
     constructor(args) {
@@ -91,6 +92,8 @@ export class Ladder {
         if (this.type === "hurt") {
             if (player.lastBlock !== this) { 
                 player.bloodDelta(-2)
+                Director.getInstance().hurt = 1;
+                TweenMax.to( Director.getInstance(),.5,{hurt:0})
             }
         }
 

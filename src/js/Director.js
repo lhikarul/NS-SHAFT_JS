@@ -2,6 +2,7 @@ import { DataStore } from "./base/DataStore";
 import { Ladder } from "./runtime/Ladder";
 import { Vector } from "./base/Vector";
 import {Player} from './player/Player';
+import {TweenMax} from 'gsap';
 
 export class Director {
     static getInstance() {
@@ -73,6 +74,16 @@ export class Director {
             this.player.lastBlock = null;
         }
 
+        if (this.player.p.y - this.player.height < 0) {
+            if (this.hurt === 0) {
+                this.hurt = 1;
+                this.player.bloodDelta(-3);
+                this.player.v.y = 2;
+                this.player.p.y = 10;
+                TweenMax.to(this,.5,{hurt:0});
+            }
+        }
+
         this.time += 1;
         this.dataStore.put('time',this.time);
        
@@ -105,6 +116,9 @@ export class Director {
                 this.dataStore.ctx.stroke()
 
         this.dataStore.ctx.restore();
+
+        this.dataStore.ctx.fillStyle = "rgba(255,0,0," + this.hurt + ")";
+        this.dataStore.ctx.fillRect(0,0,ww,wh);
 
         this.player.drawBlood();
         requestAnimationFrame(this.draw.bind(this));
