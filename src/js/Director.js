@@ -13,12 +13,17 @@ export class Director {
     constructor() {
         this.width = 700;
         this.dataStore = DataStore.getInstance();
+        this.player = Player.getInstance(this.width);
         this.dataStore.set('time',0);
         this.time = this.dataStore.get('time');
         this.laddersType = [
             "normal","jump","slideLeft","slideRight",
             "hurt","fade"
         ]
+        this.keyStatus = {
+            left: false,
+            right: false
+        }
     }
 
     createLadders(inner = true) {
@@ -48,14 +53,22 @@ export class Director {
 
     checkTouching (ladder) {
         let touching = false;
-        const player = Player.getInstance();
 
-        if (ladder.p.x - ladder.width/2 < player.p.x + player.width / 2 
-                && ladder.p.x + ladder.width/2 > player.p.x - player.width / 2
-                    && player.p.y > ladder.p.y
-                        && player.p.y < ladder.p.y + ladder.height + 10) {
+        if (ladder.p.x - ladder.width/2 < this.player.p.x + this.player.width / 2 
+                && ladder.p.x + ladder.width/2 > this.player.p.x - this.player.width / 2
+                    && this.player.p.y > ladder.p.y
+                        && this.player.p.y < ladder.p.y + ladder.height + 10) {
             touching = true;
-            ladder.step(player);
+            ladder.step(this.player);
+        }
+    }
+
+    playerMoving() {
+        if (this.keyStatus.left) {
+            this.player.p.x -= 4;
+        }
+        if (this.keyStatus.right) {
+            this.player.p.x += 4;
         }
     }
 
@@ -65,13 +78,16 @@ export class Director {
         if (this.time % 40 === 0) {
             this.createLadders(false);
         }
+
+        this.playerMoving();
+
         this.dataStore.get('background').draw();
 
         this.dataStore.get('ladders').forEach(ladder => {
             this.checkTouching(ladder);
             ladder.draw();
         });
-        this.dataStore.get('player').getInstance(this.width).draw();
+       this.player.draw();
 
         const timer = requestAnimationFrame(() => this.run());
         this.dataStore.set('timer ',timer)

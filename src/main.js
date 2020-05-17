@@ -25,9 +25,20 @@ export class Main {
                     .set('ladders',[])
                     .set('player',Player)
 
+        this.resisgerEvent();
         this.director.createLadders();
 
         this.director.run();
 
+    }
+    resisgerEvent () {
+        window.addEventListener('keydown',(evt) => {
+            let key = evt.key.replace("Arrow","").toLowerCase();
+            this.director.keyStatus[key] = true;
+        })
+        window.addEventListener('keyup',(evt) => {
+            let key = evt.key.replace("Arrow","").toLowerCase();
+            this.director.keyStatus[key] = false;
+        })
     }
 }
