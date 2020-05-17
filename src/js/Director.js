@@ -15,7 +15,7 @@ export class Director {
         this.player = null;
         this.ladders = [];
         this.width = 700;
-        this.height = this.dataStore.get('wh');
+        this.height = window.innerHeight;
         this.ladderType = [
             "normal","jump","slideLeft","slideRight","hurt","fade"
         ]
@@ -43,15 +43,32 @@ export class Director {
         })
     }
     run () {
-        console.log(this)
         requestAnimationFrame(this.draw.bind(this));
         setInterval(this.update.bind(this), 1000 / 30)
-        // const timer = requestAnimationFrame(() => this.run())
-        // this.dataStore.put('timer',timer);
     }
     update () {
+        let touching = false;
         this.player.update();
-        this.ladders.forEach(ladder => ladder.update());
+        this.ladders.forEach(ladder => {
+            ladder.update();
+            if (ladder.p.x - ladder.width / 2 < this.player.p.x + this.player.width / 2 && ladder.p.x + ladder.width / 2 > this.player.p.x - this.player.width / 2) {
+                if (this.player.p.y > ladder.p.y && this.player.p.y < ladder.p.y + ladder.height + 10) {
+                    touching = true;
+                    ladder.step(this.player)
+                }
+            }
+        });
+
+        this.time += 1;
+       
+        if (this.time % 20 === 0) {
+            this.ladders.push(new Ladder({
+                p: new Vector(Math.random() * this.width,this.height),
+                type: this.ladderType[parseInt(this.ladderType.length)]
+            }))
+        }
+
+        this.ladders = this.ladders.filter(ladder => ladder.active);
     }
     draw () {
         this.dataStore.ctx.fillStyle = "black";

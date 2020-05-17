@@ -32,4 +32,8 @@ export class Ladder {
             ctx.fillRect(0,0,this.width,this.height / 2);
        ctx.restore();
     }
+    step (player) {
+        player.v.y = 0;
+        player.p.y = this.p.y;
+    }
 }

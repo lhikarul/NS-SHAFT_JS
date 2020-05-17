@@ -17,7 +17,6 @@ export class Main {
     init () {
         this.dataStore
                     .put('wh',window.innerHeight)
-
         this.director.createPlayer();
         this.director.createLadders();
         this.director.run();
