@@ -33,9 +33,10 @@ export class Director {
         for (let i=0; i < wh/150; i++) {
             this.ladders.push(new Ladder({
                 p: new Vector(Math.random() * this.width, (i * 150) + 100),
-                type: this.ladderType[parseInt(this.ladderType.length)]
+                type: this.ladderType[parseInt(Math.random() * this.ladderType.length)]
             }))
         }
+        console.log(this.ladders)
     }
     createPlayer () {
         this.player = new Player({
@@ -72,7 +73,7 @@ export class Director {
         if (this.time % 20 === 0) {
             this.ladders.push(new Ladder({
                 p: new Vector(Math.random() * this.width,this.height),
-                type: this.ladderType[parseInt(this.ladderType.length)]
+                type: this.ladderType[parseInt(Math.random() * this.ladderType.length)]
             }))
         }
 

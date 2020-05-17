@@ -28,12 +28,31 @@ export class Ladder {
        const ctx = DataStore.getInstance().ctx;
        ctx.save();
             ctx.translate( this.p.x-this.width/2,this.p.y-this.extraHeight);
-            ctx.fillStyle = "red";
+            ctx.fillStyle = "#888";
+            ctx.font="20px Ariel"
             ctx.fillRect(0,0,this.width,this.height / 2);
+            ctx.fillText(this.type, 0 ,30)
        ctx.restore();
     }
     step (player) {
         player.v.y = 0;
-        player.p.y = this.p.y;
+        if (this.type !== "fade") {
+            player.p.y = this.p.y;
+        }
+
+        if (this.type === "jump") {
+            player.v.y = -15;
+        }
+        if (this.type === "slideLeft") {
+            player.p.x -= 3;
+        }
+
+        if (this.type === "slideRight") {
+            player.p.x += 3;
+        }
+
+        if (this.type === "fade") {
+            player.p.y -= 3;
+        }
     }
 }
