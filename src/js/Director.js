@@ -26,6 +26,10 @@ export class Director {
         }
     }
 
+    get ctx () {
+        return this.dataStore.ctx;
+    }
+
     createLadders(inner = true) {
        const wh = this.dataStore.get('wh');
 
@@ -80,16 +84,34 @@ export class Director {
         }
 
         this.playerMoving();
-
         this.dataStore.get('background').draw();
-
-        this.dataStore.get('ladders').forEach(ladder => {
-            this.checkTouching(ladder);
-            ladder.draw();
-        });
-       this.player.draw();
+        this.draw();
 
         const timer = requestAnimationFrame(() => this.run());
         this.dataStore.set('timer ',timer)
+    }
+
+    draw () {
+        const wh = this.dataStore.get('wh');
+        const ww = this.dataStore.get('ww');
+        this.ctx.save();
+            this.ctx.translate(ww/2 - this.width/2,0);
+
+            this.dataStore.get('ladders').forEach(ladder => {
+                this.checkTouching(ladder);
+                ladder.draw();
+            });
+
+            this.player.draw();
+
+            this.ctx.beginPath();
+                this.ctx.moveTo(0,0);
+                this.ctx.lineTo(0,wh);
+                this.ctx.moveTo(this.width,0)
+                this.ctx.lineTo(this.width,wh)
+                this.ctx.strokeStyle = "rgba(255,255,255,0.3)"
+                this.ctx.stroke()
+
+        this.ctx.restore();
     }
 }
