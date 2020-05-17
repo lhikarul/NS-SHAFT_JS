@@ -11,8 +11,9 @@ export class Director {
     }
     constructor() {
         this.dataStore = DataStore.getInstance();
+        this.dataStore.set('time',0);
         this.width = 700;
-        this.time = 0;
+        this.time = this.dataStore.get('time');
         this.laddersType = [
             "normal","jump","slideLeft","slideRight",
             "hurt","fade"
@@ -46,6 +47,7 @@ export class Director {
 
     run () {
         this.time += 1;
+        this.dataStore.set('time',this.time);
         if (this.time % 40 === 0) {
             this.createLadders(false);
         }

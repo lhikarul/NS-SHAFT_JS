@@ -37,6 +37,7 @@ export class Ladders {
             this.ctx.fillStyle = "white";
             this.ctx.font="20px Ariel"
             this.ctx.fillText(this.type,0,30);
+
             if (["normal","hurt"].includes(this.type)) {
                 this.ctx.fillStyle = "#888";
                 this.ctx.fillRect(0,0,this.width,this.height / 2);
@@ -50,6 +51,36 @@ export class Ladders {
                     }
                 this.ctx.fillStyle = "#ddd";
                 this.ctx.fill();
+            }
+
+            if (this.type === "jump") {
+                this.ctx.fillStyle = "#53d337";
+                this.ctx.fillRect(0,0,this.width,5);
+                this.ctx.fillRect(0,this.height + this.extraHeight, this.width, 5)
+            }
+
+            if (this.type === "fade") {
+                this.ctx.fillStyle = "#ffd428";
+                this.ctx.fillRect(0,0,this.width,this.height);
+            }
+
+            if (this.type === "slideLeft" || this.type === "slideRight") {
+                const moveDirection = this.type === "slideLeft" ? -1 : 1;
+                for (let i=0; i < this.width/20; i++) {
+                    let x = i * 20 + (DataStore.getInstance().get('time') % 20) * moveDirection;
+                    if (x < 0) {
+                       x= 0;
+                    }
+                    let width = 10;
+                    if (x + width > this.width) {
+                        width = this.width - x < 0 ? 0 : (this.width - x);
+                    }
+                    this.ctx.fillStyle = "red";
+                    this.ctx.save();
+                        this.ctx.transform(1,0,0.5,1,0,0);
+                        this.ctx.fillRect(x,0,width,this.height)
+                    this.ctx.restore();
+                }
             }
 
         this.ctx.restore();
