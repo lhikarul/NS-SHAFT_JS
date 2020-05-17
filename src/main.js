@@ -12,7 +12,7 @@ export class Main {
         this.init();
     }
     init () {
-        const ww = this.canvas.width = window.innerWidth;
+         const ww = this.canvas.width = window.innerWidth;
          const wh = this.canvas.height = window.innerHeight;
        
         this.dataStore.ctx = this.ctx;
@@ -21,6 +21,9 @@ export class Main {
                     .set('ww',ww)
                     .set('wh',wh)
                     .set('background',Background)
+                    .set('ladders',[])
+
+        this.director.createLadders();
 
         this.director.run();
 
