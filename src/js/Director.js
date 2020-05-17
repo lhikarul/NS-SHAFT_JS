@@ -10,9 +10,9 @@ export class Director {
         return Director.instance;
     }
     constructor() {
+        this.width = 700;
         this.dataStore = DataStore.getInstance();
         this.dataStore.set('time',0);
-        this.width = 700;
         this.time = this.dataStore.get('time');
         this.laddersType = [
             "normal","jump","slideLeft","slideRight",
@@ -53,6 +53,7 @@ export class Director {
         }
         this.dataStore.get('background').draw();
         this.dataStore.get('ladders').forEach(ladder => ladder.draw());
+        this.dataStore.get('player').getInstance(this.width).draw();
 
         const timer = requestAnimationFrame(() => this.run());
         this.dataStore.set('timer ',timer)

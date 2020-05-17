@@ -1,6 +1,7 @@
 import { DataStore } from "./js/base/DataStore";
 import { Director } from "./js/Director";
 import { Background } from "./js/runtime/Background";
+import { Player } from "./js/Player/Player";
 
 export class Main {
     constructor() {
@@ -22,6 +23,7 @@ export class Main {
                     .set('wh',wh)
                     .set('background',Background)
                     .set('ladders',[])
+                    .set('player',Player)
 
         this.director.createLadders();
 

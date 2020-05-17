@@ -10,7 +10,7 @@ export class DataStore {
         this.map = new Map();
     }
     set(key,value) {
-        if (value && typeof value === "function") {
+        if (value && typeof value === "function" && !value.getInstance) {
             value = new value();
         }
         this.map.set(key,value);
