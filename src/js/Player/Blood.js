@@ -9,6 +9,7 @@ export class Blood {
         return DataStore.getInstance().ctx;
     }
     bloodDelta(delta){
+        this.blood += delta;
         if (this.blood > this.maxBlood) {
             this.blood = this.maxBlood;
         }

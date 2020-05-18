@@ -87,10 +87,21 @@ export class Ladders {
     }
     step(player) {
         player.v.y = 0;
+
+        if (player.lastLadder !== this) {
+            player.bloodDelta(1);
+        }
+
         if (this.type !== 'fade') {
             player.p.y = this.p.y;
         }
         
+        if (this.type === "hurt") {
+            if (player.lastLadder !== this) {
+                player.bloodDelta(-2);
+            }
+        }
+
         if (this.type === "jump") {
             player.v.y -= 13;
         }

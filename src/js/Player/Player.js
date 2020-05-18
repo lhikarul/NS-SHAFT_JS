@@ -19,6 +19,8 @@ export class Player extends Blood {
             a: new Vector(0,0.8),
             width: 40,
             height: 55,
+            lastLadder: null,
+            hurt: 0
         }
         Object.assign(def,args);
         Object.assign(this,def);

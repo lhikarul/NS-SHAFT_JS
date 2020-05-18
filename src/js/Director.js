@@ -2,6 +2,7 @@ import { DataStore } from "./base/DataStore";
 import { Ladders } from "./runtime/Ladders";
 import { Vector } from "./base/Vector";
 import { Player } from "./Player/Player";
+import { TweenMax } from "gsap/gsap-core";
 
 export class Director {
     static getInstance() {
@@ -64,6 +65,17 @@ export class Director {
                         && this.player.p.y < ladder.p.y + ladder.height + 10) {
             touching = true;
             ladder.step(this.player);
+            this.player.lastLadder = ladder;
+        }
+
+        if (this.player.p.y - this.player.height < 0) {
+            if (this.player.hurt === 0) {
+                this.player.hurt = 1;
+                this.player.bloodDelta(-3);
+                this.player.v.y = 3;
+                this.player.p.y = 100;
+                TweenMax.to(this.player,0.5,{hurt: 0})
+            }
         }
     }
 
@@ -79,6 +91,7 @@ export class Director {
     run () {
         this.time += 1;
         this.dataStore.set('time',this.time);
+
         if (this.time % 40 === 0) {
             this.createLadders(false);
         }
@@ -94,7 +107,13 @@ export class Director {
         const wh = this.dataStore.get('wh');
         const ww = this.dataStore.get('ww');
         this.dataStore.get('background').draw();
+
+        this.ctx.fillStyle = "rgba(255,0,0," + this.player.hurt + ")";
+        this.ctx.fillRect(0,0,ww,wh);
+
         this.player.drawBlood();
+
+        // 移動畫布
         this.ctx.save();
             this.ctx.translate(ww/2 - this.width/2,0);
 
