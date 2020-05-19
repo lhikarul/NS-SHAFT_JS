@@ -77,6 +77,14 @@ export class Director {
                 TweenMax.to(this.player,0.5,{hurt: 0})
             }
         }
+
+        if (this.player.p.x - this.player.width/2 < 0) {
+            this.player.p.x = 0 + this.player.width;
+        }
+
+        if (this.player.p.x + this.player.width / 2 > this.width) {
+            this.player.p.x = this.width - this.player.width / 2;
+        }
     }
 
     playerMoving() {

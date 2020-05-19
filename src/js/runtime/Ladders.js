@@ -1,5 +1,6 @@
 import {Vector} from '../base/Vector';
 import { DataStore } from '../base/DataStore';
+import { TweenMax } from 'gsap/gsap-core';
 
 export class Ladders {
     constructor(args) {
@@ -99,6 +100,8 @@ export class Ladders {
         if (this.type === "hurt") {
             if (player.lastLadder !== this) {
                 player.bloodDelta(-2);
+                player.hurt = 1;
+                TweenMax.to(player,0.5,{hurt: 0})
             }
         }
 
