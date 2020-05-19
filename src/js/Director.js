@@ -25,6 +25,7 @@ export class Director {
             left: false,
             right: false
         }
+        this.isGameOver = true;
     }
 
     get ctx () {
@@ -58,6 +59,12 @@ export class Director {
 
     checkTouching (ladder) {
         let touching = false;
+        const wh = this.dataStore.get('wh');
+
+        if (this.player.p.y > wh + this.player.height) {
+            console.log(this.player.p.y)
+            this.isGameOver = true;
+        }
 
         if (ladder.p.x - ladder.width/2 < this.player.p.x + this.player.width / 2 
                 && ladder.p.x + ladder.width/2 > this.player.p.x - this.player.width / 2
@@ -97,18 +104,27 @@ export class Director {
     }
 
     run () {
-        this.time += 1;
-        this.dataStore.set('time',this.time);
 
-        if (this.time % 40 === 0) {
-            this.createLadders(false);
-        }
-
-        this.playerMoving();
-        this.draw();
-
-        const timer = requestAnimationFrame(() => this.run());
-        this.dataStore.set('timer ',timer)
+            this.time += 1;
+            this.dataStore.set('time',this.time);
+    
+            if (this.time % 40 === 0) {
+                this.createLadders(false);
+            }
+    
+            this.playerMoving();
+            this.draw();
+            
+            if (!this.isGameOver) {
+                const timer = requestAnimationFrame(() => this.run());
+                this.dataStore.set('timer ',timer)
+            }else {
+                cancelAnimationFrame(this.dataStore.get('timer'));
+                this.dataStore.get('start_btn').style.display = "block";
+                this.dataStore.destory();
+                // this.player.p.y = 200;
+            }
+       
     }
 
     draw () {

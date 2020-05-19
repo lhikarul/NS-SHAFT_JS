@@ -1,4 +1,5 @@
 import { DataStore } from "../base/DataStore";
+import { Director } from "../Director";
 
 export class Blood {
     constructor(blood,maxBlood) {
@@ -15,7 +16,7 @@ export class Blood {
         }
         if (this.blood < 0) {
             this.blood = 0;
-            console.log('end game')
+            Director.getInstance().isGameOver = true;
         }
     }
     draw () {
