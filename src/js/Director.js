@@ -156,6 +156,15 @@ export class Director {
                 this.ctx.strokeStyle = "rgba(255,255,255,0.3)"
                 this.ctx.stroke()
 
+            // 上方的刺
+            this.ctx.beginPath();
+                let span = this.width / 60;
+                for (let i=0; i <= this.width/span; i++) {
+                    this.ctx.lineTo(i * span, (i%2) * 30) 
+                } 
+                this.ctx.fillStyle = "white";
+                this.ctx.fill()
+
         this.ctx.restore();
     }
 }
