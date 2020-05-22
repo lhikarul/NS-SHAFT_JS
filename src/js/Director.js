@@ -137,6 +137,11 @@ export class Director {
 
         this.player.drawBlood();
 
+        // 畫階梯層數
+        this.ctx.font = "40px Ariel";
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText("地下: " + parseInt(this.time/100) + "階", 40, 100);
+
         // 移動畫布
         this.ctx.save();
             this.ctx.translate(ww/2 - this.width/2,0);
