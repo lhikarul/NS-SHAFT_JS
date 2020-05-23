@@ -8,13 +8,21 @@ export class Ladder {
             v: new Vector(0,-3),
             a: new Vector(0,0),
             width: 150,
-            height: 20
+            height: 20,
+            active: true
         }
         Object.assign(def,args);
         Object.assign(this,def);
     }
     get ctx () {
         return DataStore.getInstance().ctx;
+    }
+    update () {
+        this.p = this.p.add(this.v);
+
+        if (this.p.y < -20) {
+            this.active = false;
+        }
     }
     draw () {
         this.ctx.save()

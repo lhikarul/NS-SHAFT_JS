@@ -12,29 +12,57 @@ export class Director {
     constructor() {
         this.dataStore = DataStore.getInstance();
         this.ladders = [];
+        this.time = 0;
     }
     get ctx () {
         return this.dataStore.ctx;
     }
-    createLadders() {
-        const {gameWidth} = this.dataStore;
+    createLadders(firstLoaded=false) {
+        const {gameWidth,wh} = this.dataStore;
 
-        for (let i=0; i < this.dataStore.wh/150; i++) {
+        if (firstLoaded) {
+            for (let i=0; i < this.dataStore.wh/150; i++) {
+                this.ladders.push(new Ladder({
+                    p: new Vector(Math.random() * gameWidth, i * 150 + 100)
+                }))
+            }
+        }else {
             this.ladders.push(new Ladder({
-                p: new Vector(Math.random() * gameWidth, i * 150 + 100)
+                p: new Vector(Math.random() * gameWidth, wh)
             }))
         }
+        this.ladders = this.ladders.filter(ladder => ladder.active === true);
     }
     run () {
-        this.dataStore.get('background').draw();
-        this.createLadders();   
-        this.draw();   
+
+        this.createLadders(true);
+
+        this.draw();
+
+    }
+    update (runTime) {
+
+        this.ladders.forEach(ladder => ladder.update());
+
+        if (runTime % 80 === 0) {
+            this.createLadders();
+        }
     }   
     draw () {
+        this.time += 1;
+
+        if (this.time % 2 === 0) {
+            this.update(this.time);
+        }
+
         const {ww,gameWidth} = this.dataStore;
+
+        this.dataStore.get('background').draw();
         this.ctx.save();
             this.ctx.translate((ww-gameWidth)/2,0);
             this.ladders.forEach(ladder => ladder.draw());
         this.ctx.restore();
+
+        requestAnimationFrame(() => this.draw());
     }
 }
