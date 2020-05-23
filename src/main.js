@@ -25,7 +25,6 @@ export class Main {
     init() {
         this.dataStore
             .set('background',Background)
-            .set('player', Player)
         this.director.run();
     }
 }

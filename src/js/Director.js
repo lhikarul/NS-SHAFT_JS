@@ -1,6 +1,7 @@
 import { DataStore } from "./base/DataStore";
 import {Ladder} from './runtime/Ladder';
 import { Vector } from "./base/Vector";
+import { Player } from "./Player/Player";
 
 export class Director {
     static getInstance() {
@@ -11,6 +12,7 @@ export class Director {
     }
     constructor() {
         this.dataStore = DataStore.getInstance();
+        this.player = Player.getInstance();
         this.ladders = [];
         this.time = 0;
     }
@@ -32,21 +34,33 @@ export class Director {
             }))
         }
         this.ladders = this.ladders.filter(ladder => ladder.active === true);
+        
     }
     run () {
-        this.player = this.dataStore.get('player').getInstance();
-        
+
         this.createLadders(true);
 
         this.draw();
 
     }
+    checkPlayerTouchingWall(ladder) {
+        // let touching = false;
+        if (this.player.p.x - this.player.width / 2 > ladder.p.x - ladder.width/2 
+                && this.player.p.x + this.player.width/2 < ladder.p.x + ladder.width/2
+                    && this.player.p.y > ladder.p.y
+                        && this.player.p.y < ladder.p.y + ladder.height + 10) {
+                    ladder.setPlayerStanding(this.player);
+                }
+    }
     update (runTime) {
 
-        this.ladders.forEach(ladder => ladder.update());
+        this.ladders.forEach(ladder => {
+            ladder.update()
+            this.checkPlayerTouchingWall(ladder);
+        });
         this.player.update();
 
-        if (runTime % 80 === 0) {
+        if (runTime % 60 === 0) {
             this.createLadders();
         }
     }   

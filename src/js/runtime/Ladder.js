@@ -26,9 +26,15 @@ export class Ladder {
     }
     draw () {
         this.ctx.save()
+
+        // 階梯以中心點向左一半的距離開始畫,階梯的中心點會交集邊界的垂直線
             this.ctx.translate(this.p.x - this.width/2,this.p.y);
             this.ctx.fillStyle = "white";
             this.ctx.fillRect(0,0,this.width,this.height);
         this.ctx.restore();
+    }
+    setPlayerStanding(player) {
+        player.v.y = 0;
+        player.p.y = this.p.y;
     }
 }
