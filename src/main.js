@@ -18,6 +18,7 @@ export class Main {
         this.dataStore.ctx = this.ctx;
         this.dataStore.ww = ww;
         this.dataStore.wh = wh;
+        this.dataStore.gameWidth = 700;
         this.init();
     }
     init() {
