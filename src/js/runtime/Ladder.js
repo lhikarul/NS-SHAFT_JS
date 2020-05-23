@@ -9,7 +9,8 @@ export class Ladder {
             a: new Vector(0,0),
             width: 150,
             height: 20,
-            active: true
+            active: true,
+            type: "normal"
         }
         Object.assign(def,args);
         Object.assign(this,def);
@@ -31,6 +32,9 @@ export class Ladder {
             this.ctx.translate(this.p.x - this.width/2,this.p.y);
             this.ctx.fillStyle = "white";
             this.ctx.fillRect(0,0,this.width,this.height);
+
+            this.ctx.font = "20px Ariel"
+            this.ctx.fillText(this.type,0,50)
         this.ctx.restore();
     }
     setPlayerStanding(player) {

@@ -14,6 +14,10 @@ export class Director {
         this.dataStore = DataStore.getInstance();
         this.player = Player.getInstance();
         this.ladders = [];
+        this.ladderTypes = [
+            "normal","jump","slideLeft","slideRight",
+            "hurt","fade"
+        ]
         this.keyStatus = {
             left: false,
             right: false
@@ -23,27 +27,39 @@ export class Director {
     get ctx () {
         return this.dataStore.ctx;
     }
+    checkPlayerTouchingBorder() {
+        if (this.player.p.x - this.player.width/2 < 0) {
+            this.player.p.x = 0 + this.player.width;
+        }
+        if (this.player.p.x + this.player.width/2 > this.dataStore.gameWidth) {
+            this.player.p.x = this.dataStore.gameWidth - this.player.width/2;
+        }
+    }
     checkPlayerTouchingLadder(ladder) {
         // let touching = false;
         if (this.player.p.x + this.player.width / 2 > ladder.p.x - ladder.width/2 
-                && this.player.p.x - this.player.width/2 < ladder.p.x + ladder.width/2
-                    && this.player.p.y > ladder.p.y
-                        && this.player.p.y < ladder.p.y + ladder.height + 10) {
-                    ladder.setPlayerStanding(this.player);
-                }
+            && this.player.p.x - this.player.width/2 < ladder.p.x + ladder.width/2
+                && this.player.p.y > ladder.p.y
+                    && this.player.p.y < ladder.p.y + ladder.height + 10) {
+                ladder.setPlayerStanding(this.player);
+            }
     }
     setLadders(firstLoaded=false) {
         const {gameWidth,wh} = this.dataStore;
+        const LADDER_WIDTH = 150;
 
         if (firstLoaded) {
-            for (let i=0; i < this.dataStore.wh/150; i++) {
+            for (let i=0; i < Math.floor(this.dataStore.wh/150); i++) {
+                console.log(Math.random() * (gameWidth - LADDER_WIDTH))
                 this.ladders.push(new Ladder({
-                    p: new Vector(Math.random() * gameWidth, i * 150 + 100)
+                    p: new Vector(Math.random() * gameWidth, i * 150 + 100),
+                    type: this.ladderTypes[parseInt(Math.random() * this.ladderTypes.length)]
                 }))
             }
         }else {
             this.ladders.push(new Ladder({
-                p: new Vector(Math.random() * gameWidth, wh)
+                p: new Vector(Math.random() * gameWidth, wh),
+                type: this.ladderTypes[parseInt(Math.random() * this.ladderTypes.length)]
             }))
         }
         this.ladders = this.ladders.filter(ladder => ladder.active === true);
@@ -63,10 +79,10 @@ export class Director {
         this.setLadders(true);
 
         this.draw();
-
     }
     update (runTime) {
 
+        this.checkPlayerTouchingBorder();
         this.setPlayerMoving();
 
         this.ladders.forEach(ladder => {
@@ -81,7 +97,7 @@ export class Director {
     }   
     draw () {
         this.time += 1;
-
+        
         if (this.time % 2 === 0) {
             this.update(this.time);
         }
