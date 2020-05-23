@@ -29,7 +29,7 @@ export class Director {
     }
     checkPlayerTouchingBorder() {
         if (this.player.p.x - this.player.width/2 < 0) {
-            this.player.p.x = 0 + this.player.width;
+            this.player.p.x = 0 + this.player.width / 2;
         }
         if (this.player.p.x + this.player.width/2 > this.dataStore.gameWidth) {
             this.player.p.x = this.dataStore.gameWidth - this.player.width/2;
@@ -46,11 +46,9 @@ export class Director {
     }
     setLadders(firstLoaded=false) {
         const {gameWidth,wh} = this.dataStore;
-        const LADDER_WIDTH = 150;
 
         if (firstLoaded) {
             for (let i=0; i < Math.floor(this.dataStore.wh/150); i++) {
-                console.log(Math.random() * (gameWidth - LADDER_WIDTH))
                 this.ladders.push(new Ladder({
                     p: new Vector(Math.random() * gameWidth, i * 150 + 100),
                     type: this.ladderTypes[parseInt(Math.random() * this.ladderTypes.length)]
