@@ -9,6 +9,7 @@ export class Main {
         this.ctx = this.canvas.getContext('2d');
         this.dataStore = DataStore.getInstance();
         this.director = Director.getInstance();
+        this.player = Player.getInstance();
 
         this.firstLoaded();
 
@@ -20,11 +21,22 @@ export class Main {
         this.dataStore.ww = ww;
         this.dataStore.wh = wh;
         this.dataStore.gameWidth = 700;
+        this.registerEvent();
         this.init();
     }
     init() {
         this.dataStore
             .set('background',Background)
         this.director.run();
+    }
+    registerEvent() {
+        window.addEventListener("keydown",(evt) => {
+            const key = evt.key.replace("Arrow","").toLowerCase();
+            this.director.keyStatus[key] = true;
+        })
+        window.addEventListener("keyup",(evt) => {
+            const key = evt.key.replace("Arrow","").toLowerCase();
+            this.director.keyStatus[key] = false;
+        })
     }
 }

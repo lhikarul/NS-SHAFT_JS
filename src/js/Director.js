@@ -14,12 +14,25 @@ export class Director {
         this.dataStore = DataStore.getInstance();
         this.player = Player.getInstance();
         this.ladders = [];
+        this.keyStatus = {
+            left: false,
+            right: false
+        }
         this.time = 0;
     }
     get ctx () {
         return this.dataStore.ctx;
     }
-    createLadders(firstLoaded=false) {
+    checkPlayerTouchingLadder(ladder) {
+        // let touching = false;
+        if (this.player.p.x + this.player.width / 2 > ladder.p.x - ladder.width/2 
+                && this.player.p.x - this.player.width/2 < ladder.p.x + ladder.width/2
+                    && this.player.p.y > ladder.p.y
+                        && this.player.p.y < ladder.p.y + ladder.height + 10) {
+                    ladder.setPlayerStanding(this.player);
+                }
+    }
+    setLadders(firstLoaded=false) {
         const {gameWidth,wh} = this.dataStore;
 
         if (firstLoaded) {
@@ -36,32 +49,34 @@ export class Director {
         this.ladders = this.ladders.filter(ladder => ladder.active === true);
         
     }
+    setPlayerMoving() {
+
+        if (this.keyStatus.left) {
+            this.player.p.x -= 8;
+        }
+        if (this.keyStatus.right) {
+            this.player.p.x += 8;
+        }
+    }
     run () {
 
-        this.createLadders(true);
+        this.setLadders(true);
 
         this.draw();
 
     }
-    checkPlayerTouchingWall(ladder) {
-        // let touching = false;
-        if (this.player.p.x - this.player.width / 2 > ladder.p.x - ladder.width/2 
-                && this.player.p.x + this.player.width/2 < ladder.p.x + ladder.width/2
-                    && this.player.p.y > ladder.p.y
-                        && this.player.p.y < ladder.p.y + ladder.height + 10) {
-                    ladder.setPlayerStanding(this.player);
-                }
-    }
     update (runTime) {
+
+        this.setPlayerMoving();
 
         this.ladders.forEach(ladder => {
             ladder.update()
-            this.checkPlayerTouchingWall(ladder);
+            this.checkPlayerTouchingLadder(ladder);
         });
         this.player.update();
 
         if (runTime % 60 === 0) {
-            this.createLadders();
+            this.setLadders();
         }
     }   
     draw () {
