@@ -1,6 +1,7 @@
 import { DataStore } from "./js/base/DataStore";
 import { Director } from "./js/Director";
 import { Background } from "./js/runtime/Background";
+import { Player } from "./js/Player/Player";
 
 export class Main {
     constructor() {
@@ -22,7 +23,9 @@ export class Main {
         this.init();
     }
     init() {
-        this.dataStore.set('background',Background);
+        this.dataStore
+            .set('background',Background)
+            .set('player', Player)
         this.director.run();
     }
 }

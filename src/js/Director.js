@@ -34,7 +34,8 @@ export class Director {
         this.ladders = this.ladders.filter(ladder => ladder.active === true);
     }
     run () {
-
+        this.player = this.dataStore.get('player').getInstance();
+        
         this.createLadders(true);
 
         this.draw();
@@ -43,6 +44,7 @@ export class Director {
     update (runTime) {
 
         this.ladders.forEach(ladder => ladder.update());
+        this.player.update();
 
         if (runTime % 80 === 0) {
             this.createLadders();
@@ -58,9 +60,11 @@ export class Director {
         const {ww,gameWidth} = this.dataStore;
 
         this.dataStore.get('background').draw();
+
         this.ctx.save();
             this.ctx.translate((ww-gameWidth)/2,0);
             this.ladders.forEach(ladder => ladder.draw());
+            this.player.draw();
         this.ctx.restore();
 
         requestAnimationFrame(() => this.draw());
