@@ -35,14 +35,26 @@ export class Director {
             this.player.p.x = this.dataStore.gameWidth - this.player.width/2;
         }
     }
-    checkPlayerTouchingLadder(ladder) {
-        // let touching = false;
-        if (this.player.p.x + this.player.width / 2 > ladder.p.x - ladder.width/2 
-            && this.player.p.x - this.player.width/2 < ladder.p.x + ladder.width/2
-                && this.player.p.y > ladder.p.y
+    checkPlayerTouchingLadder() {
+        let touching = false;
+
+        this.ladders.forEach(ladder => {
+            ladder.update()
+            if (ladder.p.x - ladder.width/2 < this.player.p.x + this.player.width/2 
+                && ladder.p.x + ladder.width / 2 > this.player.p.x - this.player.width / 2
+            ) {
+                if (  this.player.p.y > ladder.p.y
                     && this.player.p.y < ladder.p.y + ladder.height + 10) {
-                ladder.setPlayerStanding(this.player);
+                    touching=true;
+                    ladder.setPlayerStanding(this.player);
+                    this.player.lastLadder = ladder;
+                }
             }
+        });
+ 
+        if (!touching) {
+            this.player.lastLadder = null;
+        }
     }
     setLadders(firstLoaded=false) {
         const {gameWidth,wh} = this.dataStore;
@@ -80,13 +92,11 @@ export class Director {
     }
     update (runTime) {
 
-        this.checkPlayerTouchingBorder();
         this.setPlayerMoving();
+        this.checkPlayerTouchingBorder();
 
-        this.ladders.forEach(ladder => {
-            ladder.update()
-            this.checkPlayerTouchingLadder(ladder);
-        });
+        this.checkPlayerTouchingLadder();
+
         this.player.update();
 
         if (runTime % 60 === 0) {
@@ -103,6 +113,7 @@ export class Director {
         const {ww,gameWidth} = this.dataStore;
 
         this.dataStore.get('background').draw();
+        this.player.drawBlood();
 
         this.ctx.save();
             this.ctx.translate((ww-gameWidth)/2,0);

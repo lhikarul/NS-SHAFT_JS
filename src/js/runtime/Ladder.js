@@ -100,6 +100,12 @@ export class Ladder {
             TweenMax.to(this,0.2,{extraHeight:0})
         }
 
+        if (this.type === "hurt") {
+            if (player.lastLadder !== this) {
+                player.setBloodDelta(-1);
+            }
+        }
+
         if (this.type === "slideLeft") {
             player.p.x -= 3;
         }

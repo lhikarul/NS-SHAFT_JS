@@ -1,5 +1,6 @@
 import {Vector} from '../base/Vector';
 import { DataStore } from '../base/DataStore';
+import {Blood} from './Blood';
 
 export class Player {
     static getInstance(width=700) {
@@ -16,10 +17,13 @@ export class Player {
             v: new Vector(0,0),
             a: new Vector(0,0.8),
             width: 40,
-            height: 55
+            height: 55,
+            blood: 10,
+            maxBlood: 10,
+            lastLadder: null
         }
         Object.assign(def,args);
-        Object.assign(this,def);
+        Object.assign(this,def,Blood);
     }
     get ctx () {
         return DataStore.getInstance().ctx;
