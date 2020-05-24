@@ -25,6 +25,15 @@ export class Background {
             ctx.strokeStyle = "rgba(255,255,255,0.3)";
             ctx.stroke();
             
+            // 遊戲上方刺
+            ctx.beginPath();
+                let span = gameWidth / 60;
+                for (let i=0; i <= gameWidth/span; i++) {
+                    ctx.lineTo(i*span,(i%2) * 30);
+                }
+                ctx.fillStyle = "white";
+            ctx.fill();
+
         ctx.restore();
     }
 }
