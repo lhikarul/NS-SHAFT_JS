@@ -116,6 +116,7 @@ export class Director {
         if (runTime % 60 === 0) {
             this.setLadders();
         }
+
     }   
     draw () {
         this.time += 1;
@@ -131,9 +132,14 @@ export class Director {
 
         this.ctx.save();
             this.ctx.translate((ww-gameWidth)/2,0);
-            this.ladders.forEach(ladder => ladder.draw());
-            this.player.draw();
+                this.ladders.forEach(ladder => ladder.draw());
+                this.player.draw();
         this.ctx.restore();
+
+        // 繪製階層
+        this.ctx.font = "50px Ariel";
+        this.ctx.fillStyle = "white";
+        this.ctx.fillText("地下: " + Math.floor(this.time/300) + "階", 40, 100);
 
         requestAnimationFrame(() => this.draw());
     }
