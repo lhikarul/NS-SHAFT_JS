@@ -20,6 +20,7 @@ export class Player {
             height: 55,
             blood: 10,
             maxBlood: 10,
+            hurt: 0,
             lastLadder: null
         }
         Object.assign(def,args);

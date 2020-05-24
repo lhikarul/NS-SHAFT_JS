@@ -2,6 +2,7 @@ import { DataStore } from "./base/DataStore";
 import {Ladder} from './runtime/Ladder';
 import { Vector } from "./base/Vector";
 import { Player } from "./Player/Player";
+import {TweenMax} from "gsap";
 
 export class Director {
     static getInstance() {
@@ -23,6 +24,9 @@ export class Director {
             right: false
         }
         this.time = 0;
+
+        this.dataStore.set('player',this.player);
+
     }
     get ctx () {
         return this.dataStore.ctx;
@@ -33,6 +37,16 @@ export class Director {
         }
         if (this.player.p.x + this.player.width/2 > this.dataStore.gameWidth) {
             this.player.p.x = this.dataStore.gameWidth - this.player.width/2;
+        }
+
+        if (this.player.p.y - this.player.height < 0) {
+            if (this.player.hurt == 0) {
+                this.player.hurt = 1;
+                this.player.setBloodDelta(-3);
+                this.player.v.y = 2;
+                this.player.p.y = 10;
+                TweenMax.to(this.player,1,{hurt: 0})
+            }
         }
     }
     checkPlayerTouchingLadder() {

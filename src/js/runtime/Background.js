@@ -6,9 +6,14 @@ export class Background {
     }
     draw () {
         const {ctx,ww,wh,gameWidth} = this.dataStore;
+        const player = this.dataStore.get('player')
         ctx.fillStyle = "black";
         ctx.fillRect(0,0,ww,wh);
         
+        // 受傷害紅幕
+        ctx.fillStyle = "rgba(255,0,0,"+ player.hurt +")"
+        ctx.fillRect(0,0,ww,wh)
+
         // 遊戲邊界
         ctx.save();
             ctx.translate((ww-gameWidth)/2, 0);
@@ -19,6 +24,7 @@ export class Background {
                 ctx.lineTo(gameWidth,wh);
             ctx.strokeStyle = "rgba(255,255,255,0.3)";
             ctx.stroke();
+            
         ctx.restore();
     }
 }

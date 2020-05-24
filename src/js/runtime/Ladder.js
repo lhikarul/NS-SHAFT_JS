@@ -89,7 +89,11 @@ export class Ladder {
     }
     setPlayerStanding(player) {
         player.v.y = 0;
- 
+
+        if (player.lastLadder !== this) {
+            player.setBloodDelta(1);
+        }
+
         if (this.type !== "fade") {
             player.p.y = this.p.y;
         }
@@ -101,8 +105,10 @@ export class Ladder {
         }
 
         if (this.type === "hurt") {
-            if (player.lastLadder !== this) {
-                player.setBloodDelta(-1);
+            if (player.lastLadder != this) {
+                player.setBloodDelta(-2);
+                player.hurt = 1;
+                TweenMax.to(player,0.5,{hurt: 0})
             }
         }
 
