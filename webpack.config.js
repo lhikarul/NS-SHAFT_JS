@@ -5,12 +5,12 @@ module.exports = {
     entry: './src/game.js',
     mode: 'development',
     devServer: {
-        contentBase: './bundle',
+        contentBase: './doc',
         open: true
     },
     output: {
         filename: "bundle.js",
-        path: path.resolve(__dirname,'bundle')
+        path: path.resolve(__dirname,'doc')
     },
     plugins:[new HtmlWebpackPlugin({
         template: 'src/index.html'
